@@ -1,0 +1,27 @@
+{
+  "name": "Tile Quest",
+  "short_name": "Tile Quest",
+  "start_url": "/tile-quest/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "./images/icon_192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./images/icon_512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "description": "Sliding Picture Puzzle Game",
+  "background_color": "#181818",
+  "theme_color": "#26a826",
+  "lang": "en",
+  "categories": [
+    "entertainment",
+    "games"
+  ]
+}

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- meta tags -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sliding Picture Puzzle Game">
+  <meta name="robots" content="noindex, nofollow">
+  <!-- open graph tags -->
+  <meta property="og:title" content="Tile Quest">
+  <meta property="og:description" content="Sliding Picture Puzzle Game">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://deshan-nawanjana.github.io/tile-quest/">
+  <meta property="og:image" content="https://deshan-nawanjana.github.io/tile-quest/assets/images/splash.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <!-- twitter card tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Tile Quest">
+  <meta name="twitter:description" content="Sliding Picture Puzzle Game">
+  <meta name="twitter:image" content="https://deshan-nawanjana.github.io/tile-quest/assets/images/splash.png">
+  <!-- canonical -->
+  <link rel="canonical" href="https://deshan.lk/projects/tile-quest" />
+  <!-- manifest -->
+  <link rel="manifest" href="./assets/manifest.json">
+  <!-- favicon -->
+  <link rel="shortcut icon" href="./index.png" type="image/png">
+  <!-- preload : fonts -->
+  <link rel="stylesheet" href="./assets/fonts/fonts.css">
+  <link rel="preload" href="./assets/fonts/Ubuntu/Ubuntu-Regular.ttf" as="font" type="font/ttf" crossorigin>
+  <!-- preload : images -->
+  <link rel="preload" href="./assets/images/spinner.svg" as="image" type="image/svg+xml" />
+  <link rel="preload" href="./assets/images/select.svg" as="image" type="image/svg+xml" />
+  <link rel="preload" href="./assets/images/upload.svg" as="image" type="image/svg+xml" />
+  <link rel="preload" href="./assets/images/confetti.png" as="image" type="image/png" />
+  <!-- style -->
+  <link rel="stylesheet" href="./index.css">
+  <!-- libraries -->
+  <script src="./assets/libraries/vue.min.js"></script>
+  <!-- script -->
+  <script src="./index.js" type="module" defer></script>
+  <!-- page title -->
+  <title>Tile Quest</title>
+</head>
+<body>
+  <div id="app" :data-ready="ready" :data-loading="loading">
+    <div class="container">
+      <div class="options" v-if="screen === 'options'">
+        <div class="images">
+          <div class="image" v-for="item in images">
+            <div class="image-preview" :style="{ backgroundImage: `url(${item.src})`, opacity: item.loading ? 0 : 1 }">
+              <div class="image-option select" :data-selected="item.src === image" @click="image = item.src">
+              </div>
+            </div>
+          </div>
+          <div class="image upload">
+            <div class="image-preview">
+              <div class="image-option upload" @click="upload">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="preview">
+          <div class="puzzle">
+            <div class="puzzle-inner" :style="{ '--size': size }">
+              <div class="puzzle-row" v-for="(row, i) in data">
+                <div class="puzzle-tile"
+                  v-for="(tile, j) in row"
+                  :style="style(tile)">
+                </div>
+              </div>
+            </div>
+          </div>
+          <input class="resize" type="range" :value="size" @input="resize" :disabled="loading" min="3" max="8">
+          <button class="button" @click="start" :disabled="loading">
+            Start Puzzle
+          </button>
+        </div>
+      </div>
+      <div class="game" v-if="screen === 'game'">
+        <div class="time">
+          {{timer()}}
+        </div>
+        <div class="puzzle" v-if="!original.display">
+          <div class="puzzle-inner" :style="{ '--size': size }">
+            <div class="puzzle-row" v-for="(row, i) in data">
+              <div class="puzzle-tile"
+                :data-tile="tile"
+                v-for="(tile, j) in row"
+                :style="style(tile)">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="puzzle original" v-if="!complete && original.display">
+          <div class="puzzle-inner" :style="{ '--size': size }">
+            <div class="puzzle-row" v-for="(row, i) in original.data">
+              <div class="puzzle-tile"
+                v-for="(tile, j) in row"
+                :style="style(tile)">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="complete" v-if="complete">
+          <div class="congratulate">
+            Congratulations !
+          </div>
+          <button class="button" @click="stop">
+            Play Again
+          </button>
+        </div>
+        <div class="buttons" v-if="!complete">
+          <button
+            class="button stop"
+            @click="stop"
+            :disabled="original.display">
+            Quit Puzzle
+          </button>
+          <button
+            class="button"
+            @mousedown="original.display = true"
+            @mouseup="original.display = false"
+            @mouseleave="original.display = false"
+            @touchstart="original.display = true"
+            @touchend="original.display = false">
+            Show Original
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
