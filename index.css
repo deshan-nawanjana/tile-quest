@@ -37,11 +37,11 @@ body {
   background-position: center;
 }
 
-#app * {
+#app .container {
   opacity: 0;
 }
 
-#app[data-ready] * {
+#app[data-ready] .container {
   opacity: 1;
 }
 
@@ -50,6 +50,7 @@ body {
   background-color: #2e2e2e;
   padding: 20px;
   border-radius: 12px;
+  transition: opacity 0.1s;
 }
 
 .puzzle {
