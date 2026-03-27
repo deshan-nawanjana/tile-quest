@@ -1,5 +1,8 @@
 import { Puzzle } from "./assets/modules/Puzzle.js"
 
+// base url
+const baseURL = (window.baseURL ?? "") + "assets/images/puzzles/"
+
 // create puzzle
 const puzzle = new Puzzle()
 
@@ -155,7 +158,7 @@ new Vue({
       const x = (tile - 1) % this.size
       const y = Math.floor((tile - 1) / this.size)
       // return position variables
-      return { '--x': x, '--y': y, backgroundImage: `url(${this.image})` }
+      return { '--x': x, '--y': y, backgroundImage: this.image ? `url(${this.image})` : "none" }
     },
     // move puzzle tiles
     move(direction) {
@@ -217,13 +220,13 @@ new Vue({
       // set ready state
       this.ready = true
       // preload first images
-      this.preload("assets/images/puzzles/puzzle_1.png").then(() => {
+      this.preload(baseURL + "puzzle_1.png").then(() => {
         // stop loading
         this.loading = false
       })
       // load rest of images
-      this.preload("assets/images/puzzles/puzzle_2.png", false)
-      this.preload("assets/images/puzzles/puzzle_3.png", false)
+      this.preload(baseURL + "puzzle_2.png", false)
+      this.preload(baseURL + "puzzle_3.png", false)
       // initiate puzzle preview
       puzzle.init(this.size, false)
       // clone original data
